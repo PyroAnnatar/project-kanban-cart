@@ -20,21 +20,30 @@ const Home = () => {
     }
   }, [router]);
   const [isTouchy, setIsTouchy] = useState(false);
+  const [key, setKey] = useState(0); // Add a key state
 
   useEffect(() => {
-    function checkDevice() {
-      const isMobileWidth = window.innerWidth <= 768;
-      console.log("Mobile Rocket Launcher", isMobileWidth);
+    const isMobile = window.innerWidth <= 768;
+    setIsTouchy(isMobile);
 
-      setIsTouchy(isMobileWidth);
+    let resizeTimer;
+    function handleResize() {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(() => {
+        const shouldBeTouchy = window.innerWidth <= 768;
+        if (shouldBeTouchy !== isTouchy) {
+          setIsTouchy(shouldBeTouchy);
+          setKey((prev) => prev + 1);
+        }
+      }, 250);
     }
-    checkDevice();
 
-    window.addEventListener("resize", checkDevice);
-    return () => window.removeEventListener("resize", checkDevice);
-  }, []);
-
-  console.log("Current iteration of hell:", isTouchy ? "Touchy" : "Mouse");
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+      clearTimeout(resizeTimer);
+    };
+  }, [isTouchy]);
 
   if (isLoading) {
     return (
@@ -43,14 +52,16 @@ const Home = () => {
       </div>
     );
   }
+
   return (
     <DndProvider
+      key={`${isTouchy ? "touch" : "html5"}-${key}`}
       backend={isTouchy ? TouchBackend : HTML5Backend}
       options={
         isTouchy
           ? {
               enableMouseEvents: true,
-              delay: 300,
+              delay: 200,
               // delayTouchStart: 300,
               // touchSlop: 20,
             }
