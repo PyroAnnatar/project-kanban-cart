@@ -23,22 +23,26 @@ const Home = () => {
 
   useEffect(() => {
     function checkDevice() {
-      const isMobileOrTablet =
-        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-          navigator.userAgent
-        );
+      const isTouch = window.matchMedia("(pointer:coarse)").matches;
+      const isMouse = window.matchMedia("(pointer:fine)").matches;
 
-      const isTouchOnly = window.matchMedia("(pointer:coarse)").matches;
+      console.log("Has touchy pointy", isTouch);
+      console.log("Has mousey", isMouse);
 
-      console.log("Is mobile/tablet", isMobileOrTablet);
-      console.log("Is touchey-only device", isTouchOnly);
-
-      setIsTouchy(isMobileOrTablet || isTouchOnly);
+      setIsTouchy(isTouch && !isMouse);
     }
     checkDevice();
 
-    window.addEventListener("resize", checkDevice);
-    return () => removeEventListener("resize", checkDevice);
+    const touchQ = window.matchMedia("(pointer:coarse)");
+    const mouseQ = window.matchMedia("(pointer:fine)");
+
+    touchQ.addEventListener("change", checkDevice);
+    mouseQ.addEventListener("change", checkDevice);
+
+    return () => {
+      touchQ.removeEventListener("change", checkDevice);
+      mouseQ.removeEventListener("change", checkDevice);
+    };
   }, []);
 
   if (isLoading) {

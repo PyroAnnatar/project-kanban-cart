@@ -186,7 +186,6 @@ const Boards = () => {
       return prev.map((project) => ({
         ...project,
         tasks: project.tasks.filter((t) => {
-          if (t.title.text === "Operasyon Birimi") return true;
           return t.title.text !== task.title.text;
         }),
       }));
