@@ -24,6 +24,7 @@ const Home = () => {
     if (typeof window !== "undefined") {
       return "ontouchstart" in window || navigator.maxTouchPoints;
     }
+    return false;
   }
 
   if (isLoading) {
@@ -39,7 +40,7 @@ const Home = () => {
       options={
         isTouchyDevice()
           ? {
-              enableMouseEvents: true,
+              enableMouseEvents: false,
               delay: 300,
               // delayTouchStart: 300,
               // touchSlop: 20,
