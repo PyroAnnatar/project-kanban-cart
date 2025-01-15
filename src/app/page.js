@@ -8,7 +8,7 @@ export default function Login() {
     email: "",
     password: "",
   });
-  const [error, setError] = useState("");
+  const [error, setError] = useState("Need demo login | demo@demo.com - demo");
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -19,7 +19,7 @@ export default function Login() {
       );
       router.push("/dashboard");
     } else {
-      setError("Need demo login | demo@demo.com - demo ");
+      setError("Need demo login | demo@demo.com - demo");
     }
   };
 
