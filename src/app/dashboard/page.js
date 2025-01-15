@@ -39,8 +39,8 @@ const Home = () => {
   //   return false;
   // }
 
-  const backend = isTouchyDevice() ? TouchBackend : HTML5Backend;
-  console.log("using", backend.name);
+  // const backend = isTouchyDevice() ? TouchBackend : HTML5Backend;
+  // console.log("using", backend.name);
   if (isLoading) {
     return (
       <div className="bg-slate-400 min-h-screen flex justify-center items-center">
