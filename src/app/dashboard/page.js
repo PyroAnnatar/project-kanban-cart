@@ -22,35 +22,25 @@ const Home = () => {
   const [isTouchy, setIsTouchy] = useState(false);
 
   useEffect(() => {
-    console.log("maxTouchPoints:", navigator.maxTouchPoints);
-    console.log("ontouchstart in window:", "ontouchstart" in window);
-    console.log("userAgent:", navigator.userAgent);
+    function checkDevice() {
+      const isMobileOrTablet =
+        /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+          navigator.userAgent
+        );
 
-    const isMobileOrTablet =
-      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-        navigator.userAgent
-      );
-    console.log("Is mobile/tablet:", isMobileOrTablet);
+      const isTouchOnly = window.matchMedia("(pointer:coarse)").matches;
 
-    setIsTouchy(isMobileOrTablet);
+      console.log("Is mobile/tablet", isMobileOrTablet);
+      console.log("Is touchey-only device", isTouchOnly);
+
+      setIsTouchy(isMobileOrTablet || isTouchOnly);
+    }
+    checkDevice();
+
+    window.addEventListener("resize", checkDevice);
+    return () => removeEventListener("resize", checkDevice);
   }, []);
-  // function isTouchyDevice() {
-  //   if (typeof window !== "undefined") {
-  //     const isMobileOrTablet =
-  //       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
-  //         navigator.userAgent
-  //       );
-  //     return isMobileOrTablet;
-  // console.log("Is mobile/tablet:", isMobileOrTablet);
-  // const isTouchy = "ontouchstart" in window || navigator.maxTouchPoints;
-  // console.log("is touchy", isTouchy);
-  // return isTouchy;
-  //   }
-  //   return false;
-  // }
 
-  // const backend = isTouchyDevice() ? TouchBackend : HTML5Backend;
-  // console.log("using", backend.name);
   if (isLoading) {
     return (
       <div className="bg-slate-400 min-h-screen flex justify-center items-center">
