@@ -22,11 +22,15 @@ const Home = () => {
 
   function isTouchyDevice() {
     if (typeof window !== "undefined") {
-      return "ontouchstart" in window || navigator.maxTouchPoints;
+      const isTouchy = "ontouchstart" in window || navigator.maxTouchPoints;
+      console.log("is touchy", isTouchy);
+      return isTouchy;
     }
     return false;
   }
 
+  const backend = isTouchyDevice() ? TouchBackend : HTML5Backend;
+  console.log("using", backend.name);
   if (isLoading) {
     return (
       <div className="bg-slate-400 min-h-screen flex justify-center items-center">
@@ -40,7 +44,7 @@ const Home = () => {
       options={
         isTouchyDevice()
           ? {
-              enableMouseEvents: false,
+              enableMouseEvents: true,
               delay: 300,
               // delayTouchStart: 300,
               // touchSlop: 20,
