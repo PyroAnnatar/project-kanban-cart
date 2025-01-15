@@ -19,15 +19,25 @@ const Home = () => {
       setIsLoading(false);
     }
   }, [router]);
+  const [isTouchy, setIsTouchy] = useState(false);
 
-  function isTouchyDevice() {
-    if (typeof window !== "undefined") {
-      const isTouchy = "ontouchstart" in window || navigator.maxTouchPoints;
-      console.log("is touchy", isTouchy);
-      return isTouchy;
-    }
-    return false;
-  }
+  useEffect(() => {
+    setIsTouchy("ontouchstart" in window || navigator.maxTouchPoints > 0);
+  }, []);
+  // function isTouchyDevice() {
+  //   if (typeof window !== "undefined") {
+  //     const isMobileOrTablet =
+  //       /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+  //         navigator.userAgent
+  //       );
+  //     return isMobileOrTablet;
+  // console.log("Is mobile/tablet:", isMobileOrTablet);
+  // const isTouchy = "ontouchstart" in window || navigator.maxTouchPoints;
+  // console.log("is touchy", isTouchy);
+  // return isTouchy;
+  //   }
+  //   return false;
+  // }
 
   const backend = isTouchyDevice() ? TouchBackend : HTML5Backend;
   console.log("using", backend.name);
