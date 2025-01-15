@@ -50,9 +50,9 @@ const Home = () => {
   }
   return (
     <DndProvider
-      backend={isTouchyDevice() ? TouchBackend : HTML5Backend}
+      backend={isTouchy() ? TouchBackend : HTML5Backend}
       options={
-        isTouchyDevice()
+        isTouchy()
           ? {
               enableMouseEvents: true,
               delay: 300,
