@@ -23,27 +23,18 @@ const Home = () => {
 
   useEffect(() => {
     function checkDevice() {
-      const isTouch = window.matchMedia("(pointer:coarse)").matches;
-      const isMouse = window.matchMedia("(pointer:fine)").matches;
+      const isMobileWidth = window.innerWidth <= 768;
+      console.log("Mobile Rocket Launcher", isMobileWidth);
 
-      console.log("Has touchy pointy", isTouch);
-      console.log("Has mousey", isMouse);
-
-      setIsTouchy(isTouch && !isMouse);
+      setIsTouchy(isMobileWidth);
     }
     checkDevice();
 
-    const touchQ = window.matchMedia("(pointer:coarse)");
-    const mouseQ = window.matchMedia("(pointer:fine)");
-
-    touchQ.addEventListener("change", checkDevice);
-    mouseQ.addEventListener("change", checkDevice);
-
-    return () => {
-      touchQ.removeEventListener("change", checkDevice);
-      mouseQ.removeEventListener("change", checkDevice);
-    };
+    window.addEventListener("resize", checkDevice);
+    return () => window.removeEventListener("resize", checkDevice);
   }, []);
+
+  console.log("Current iteration of hell:", isTouchy ? "Touchy" : "Mouse");
 
   if (isLoading) {
     return (
