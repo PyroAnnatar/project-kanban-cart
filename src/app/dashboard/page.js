@@ -22,7 +22,17 @@ const Home = () => {
   const [isTouchy, setIsTouchy] = useState(false);
 
   useEffect(() => {
-    setIsTouchy("ontouchstart" in window || navigator.maxTouchPoints > 0);
+    console.log("maxTouchPoints:", navigator.maxTouchPoints);
+    console.log("ontouchstart in window:", "ontouchstart" in window);
+    console.log("userAgent:", navigator.userAgent);
+
+    const isMobileOrTablet =
+      /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+        navigator.userAgent
+      );
+    console.log("Is mobile/tablet:", isMobileOrTablet);
+
+    setIsTouchy(isMobileOrTablet);
   }, []);
   // function isTouchyDevice() {
   //   if (typeof window !== "undefined") {
