@@ -91,8 +91,8 @@ const Sidebar = () => {
           transition-transform duration-300 z-40
         `}
       >
-        <div className="w-[72px] min-h-screen">
-          <div className="flex flex-col justify-between items-center h-full w-[72px] pb-4 pt-16 lg:pt-6 bg-[#363F72]">
+        <div className="w-[72px] min-h-dvh">
+          <div className="flex flex-col justify-between items-center min-h-dvh w-[72px] pb-4 pt-16 lg:pt-6 bg-[#363F72] ">
             <ul className="flex flex-col gap-2 cursor-pointer">
               {[1, 2, 3, 4].map((item) => (
                 <li
@@ -127,7 +127,7 @@ const Sidebar = () => {
           </div>
         </div>
 
-        <div className="w-[282px] p-6 flex flex-col justify-between border-r border-[#dee2e9] bg-white">
+        <div className="w-[282px] p-6 flex flex-col justify-between border-r border-[#dee2e9] bg-white min-h-dvh">
           <ul className="flex flex-col gap-2">
             {things.map((project) => (
               <React.Fragment key={project.id}>
