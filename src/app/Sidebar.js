@@ -82,7 +82,7 @@ const Sidebar = () => {
 
       <div
         className={`
-          flex min-h-screen fixed lg:static
+          flex min-h-dvh fixed lg:static
           ${
             isMobileNavOpen
               ? "translate-x-0"
