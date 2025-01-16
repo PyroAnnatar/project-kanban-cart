@@ -1,9 +1,11 @@
 const data = [
   {
+    id: "waterboarding-1",
     title: "OPEN",
     notifications: 3,
     tasks: [
       {
+        id: "taskmaster-1",
         title: {
           text: "Operasyon Birimi",
           color: "#F38744",
@@ -25,6 +27,7 @@ const data = [
         ],
       },
       {
+        id: "taskmaster-2",
         title: {
           text: "Teknik Birimi",
           color: "#2083D7",
@@ -46,6 +49,8 @@ const data = [
         ],
       },
       {
+        id: "taskmaster-3",
+
         title: {
           text: "Test ve Onay Birimi",
           color: "#C80B0B",
@@ -66,6 +71,8 @@ const data = [
     ],
   },
   {
+    id: "waterboarding-2",
+
     title: "129f",
     notifications: 3,
     tasks: [],

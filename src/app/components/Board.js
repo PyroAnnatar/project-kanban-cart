@@ -1,14 +1,22 @@
 import React, { useState } from "react";
-import { useDrop } from "react-dnd";
+import { useDroppable } from "@dnd-kit/core";
 import Task from "./Task";
 
-function Board({ project, onTaskDrop, taskSelect, handleAddTask }) {
+function Board({ project, taskSelect, handleAddTask }) {
   const [adding, setAdding] = useState(false);
   const [newTaskTitle, setNewTaskTitle] = useState("");
 
+  const { setNodeRef, isOver } = useDroppable({
+    id: project.id,
+    data: {
+      type: "BOARD",
+      projectId: project.id,
+    },
+  });
+
   function handleSubmit(e) {
     e.preventDefault();
-    handleAddTask(project.title, newTaskTitle);
+    handleAddTask(project.id, newTaskTitle);
     setNewTaskTitle("");
     setAdding(false);
   }
@@ -63,15 +71,9 @@ function Board({ project, onTaskDrop, taskSelect, handleAddTask }) {
     );
   }
 
-  const [{ isOver }, dropRef] = useDrop(() => ({
-    accept: "TASK",
-    drop: (item) => onTaskDrop(item.taskId, item.projectId, project.title),
-    collect: (monitor) => ({ isOver: monitor.isOver() }),
-  }));
-
   return (
     <li
-      ref={dropRef}
+      ref={setNodeRef}
       className={`border border-[#EAECF0] shadow-[0_1px_2px_rgba(16,24,40,0.05)] rounded-xl 
         min-w-[200px] sm:min-w-[250px] 
         max-w-[200px] sm:max-w-[250px] 
@@ -109,10 +111,10 @@ function Board({ project, onTaskDrop, taskSelect, handleAddTask }) {
           <>
             {project.tasks?.map((task) => (
               <Task
-                key={task.title.text}
+                key={task.id}
                 task={task}
                 taskSelect={taskSelect}
-                projectId={project.title}
+                projectId={project.id}
               />
             ))}
             {adding ? (
@@ -147,17 +149,22 @@ function Board({ project, onTaskDrop, taskSelect, handleAddTask }) {
             )}
           </>
         )}
-        {/* {addingTaskToBoard === project.title ? <form onSubmit={handleSubmit}><input
-        value={newTaskTitle} onChange={e=>setNewTaskTitle(e.target.value)}/></form> :
-        <button></button>} */}
-        {/* {project.tasks.length > 0 && (
-          <li className="cursor-pointer flex justify-center items-center p-3 text-[#98A2B3] text-lg">
-            <p>+New Task</p>
-          </li>
-        )} */}
       </ul>
     </li>
   );
 }
 
 export default Board;
+
+{
+  /* {addingTaskToBoard === project.title ? <form onSubmit={handleSubmit}><input
+value={newTaskTitle} onChange={e=>setNewTaskTitle(e.target.value)}/></form> :
+<button></button>} */
+}
+{
+  /* {project.tasks.length > 0 && (
+  <li className="cursor-pointer flex justify-center items-center p-3 text-[#98A2B3] text-lg">
+    <p>+New Task</p>
+  </li>
+)} */
+}

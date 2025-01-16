@@ -47,9 +47,7 @@ function TaskTabs({ task }) {
                     alt=""
                     className="w-3 h-3 sm:w-auto sm:h-auto"
                   />
-                  <span className="text-gray-300">
-                    #{task.contentId || "2334453"}
-                  </span>
+                  <span className="text-gray-300">#{task.id}</span>
                 </div>
               </div>
               <div className="flex gap-1 sm:gap-2 text-[10px] sm:text-xs">
@@ -114,9 +112,12 @@ function TaskTabs({ task }) {
   );
 }
 
-function ActivityItem({ user, action, target, time, projectLink }) {
+function ActivityItem({ id, user, action, target, time, projectLink }) {
   return (
-    <div className="flex items-start gap-2 sm:gap-3 p-1.5 sm:p-2 bg-[#F3F6FD]">
+    <div
+      key={id}
+      className="flex items-start gap-2 sm:gap-3 p-1.5 sm:p-2 bg-[#F3F6FD]"
+    >
       <div className="relative">
         <img
           src={user.photo}
@@ -187,7 +188,6 @@ function Activities({ task }) {
     activityRef.current.scrollTop = scrollTop - walk;
   }
 
-  // Touch event handlers for mobile
   function handleTouchStart(e) {
     const touch = e.touches[0];
     setIsDragging(true);
@@ -231,6 +231,7 @@ function Activities({ task }) {
       for (let i = 0; i < numActivities; i++) {
         const randoAction = actions[Math.floor(Math.random() * actions.length)];
         const activity = {
+          id: `activity-${crypto.randomUUID()}`,
           user: person,
           action: randoAction.action,
           time: randoTime(),
@@ -443,7 +444,7 @@ function TaskDetails({ task, taskDeselect, handleDelete }) {
                 </h2>
                 <div className="flex gap-1 items-center text-xs sm:text-sm text-[#98A2B3]">
                   <span>ID:</span>
-                  <span className="underline">#{task.id || "435365"}</span>
+                  <span className="underline">#{task.id}</span>
                   <img
                     src="/Copy 2.png"
                     alt=""
@@ -471,7 +472,7 @@ function TaskDetails({ task, taskDeselect, handleDelete }) {
                 <div className="flex items-center gap-1 sm:gap-2">
                   <div className="flex -space-x-1 sm:-space-x-2">
                     {task.people.slice(0, 4).map((person, i) => (
-                      <div key={i}>
+                      <div key={person.id || person.name}>
                         <img
                           src={person.photo}
                           className="w-6 h-6 sm:w-8 sm:h-8 rounded-full border-2 border-white"

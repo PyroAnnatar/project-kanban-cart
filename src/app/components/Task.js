@@ -1,33 +1,46 @@
 import React from "react";
-import { useDrag } from "react-dnd";
+import { useDraggable } from "@dnd-kit/core";
+import { CSS } from "@dnd-kit/utilities";
 
 function Task({ task, projectId, taskSelect }) {
   // function handleCancer(e) {
   //   e.stopPropagation();
   // }
 
-  function handleTouchMove(e) {
-    if (isDragging) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-  }
+  const { attributes, listeners, setNodeRef, transform, isDragging } =
+    useDraggable({
+      id: task.id,
+      data: {
+        type: "TASK",
+        taskId: task.id,
+        projectId,
+        task,
+      },
+    });
 
-  const [{ isDragging }, dragRef] = useDrag(() => ({
-    type: "TASK",
-    item: { taskId: task.title.text, projectId },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
+  const style = {
+    opacity: isDragging ? 0 : 1,
+    cursor: "pointer",
+    transform: CSS.Transform.toString(transform),
+  };
+
+  // function handleTouchMove(e) {
+  //   if (isDragging) {
+  //     e.preventDefault();
+  //     e.stopPropagation();
+  //   }
+  // }
+
   return (
     <li
       // onClickCapture={handleCancer}
-      ref={dragRef}
-      style={{ opacity: isDragging ? 0.5 : 1, cursor: "pointer" }}
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={style}
       className="task border border-[#EAECF0] shadow-[0_1px_2px_rgba(16,24,40,0.05)] rounded-md p-2 sm:p-3 flex flex-col gap-1.5 sm:gap-2"
       onClick={() => taskSelect(task)}
-      onTouchMove={handleTouchMove}
+      // onTouchMove={handleTouchMove}
     >
       <h4 className="font-medium text-xs" style={{ color: task.title.color }}>
         {task.title.text}
